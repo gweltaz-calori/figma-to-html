@@ -26,7 +26,7 @@ const FIGMA_URL_REGEX = /https:\/\/([w\.-]+.)?figma.com\/(file|proto)\/([0-9a-zA
 
 import { mapGetters } from "vuex";
 import { getFile } from "@/api";
-import Importer from "@/Importer/Importer";
+import Importer from "../../importer/Importer";
 
 import JSZip from "jszip";
 
