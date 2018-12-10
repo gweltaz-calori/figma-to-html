@@ -28,6 +28,7 @@ export default class Text extends Vector {
     el.style.fontWeight = this.style.fontWeight;
     el.style.userSelect = "none";
     el.style.display = "flex";
+    //el.style.color = "transparent";
 
     if (this.style.textAlignHorizontal === "CENTER") {
       el.style.justifyContent = "center";
@@ -41,8 +42,20 @@ export default class Text extends Vector {
     }
 
     for (let fill of this.fills) {
-      el.style.color = fill.apply();
+      if (fill.type === "GRADIENT_LINEAR") {
+        /* el.style.background = fill.apply();
+        el.style.webkitBackgroundClip = "text";
+        el.style.webkitTextFillColor = "transparent"; */
+      } else {
+        el.style.color = fill.apply();
+      }
     }
+
+    for (let stroke of this.strokes) {
+      el.style.webkitTextStrokeWidth = `${this.strokeWeight}px`;
+      el.style.webkitTextStrokeColor = stroke.color.format();
+    }
+    console.log(this.styleOverrideTable);
 
     for (let letterIndex in this.characters) {
       let letterEl = document.createElement("span");
@@ -52,7 +65,7 @@ export default class Text extends Vector {
         letterEl.textContent = this.characters[letterIndex];
       }
 
-      letterEl.style.fontFamily = "inherit";
+      letterEl.style.fontFamily = this.style.fontFamily;
 
       let letterOverrideName = this.characterStyleOverrides[letterIndex];
 
@@ -69,15 +82,15 @@ export default class Text extends Vector {
       }
 
       if (letterOverrideProperties.fontSize) {
-        el.style.fontSize = `${letterOverrideProperties.fontSize}px`;
+        letterEl.style.fontSize = `${letterOverrideProperties.fontSize}px`;
       }
 
       if (letterOverrideProperties.fontFamily) {
-        el.style.fontFamily = letterOverrideProperties.fontFamily;
+        letterEl.style.fontFamily = letterOverrideProperties.fontFamily;
       }
 
       if (letterOverrideProperties.fontWeight) {
-        el.style.fontWeight = letterOverrideProperties.fontWeight;
+        letterEl.style.fontWeight = letterOverrideProperties.fontWeight;
       }
     }
 

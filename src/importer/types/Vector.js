@@ -173,17 +173,21 @@ export default class Vector extends Global {
         let svgStroke = null;
         if (this.fillGeometry.length === 0) {
           svgStroke = stroke.toSVG("stroke", this.id, strokeGeoIndex);
-          path.setAttributeNS(null, "fill", svgStroke.name);
-          path.setAttributeNS(null, "fill-rule", strokeGeo.windingRule);
-          path.setAttributeNS(null, "clip-rule", strokeGeo.windingRule);
+          if (svgStroke) {
+            path.setAttributeNS(null, "fill", svgStroke.name);
+            path.setAttributeNS(null, "fill-rule", strokeGeo.windingRule);
+            path.setAttributeNS(null, "clip-rule", strokeGeo.windingRule);
+          }
         } else {
           svgStroke = stroke.toSVG("stroke", this.id, strokeGeoIndex);
-          path.setAttributeNS(null, "stroke", svgStroke.name);
-          path.setAttributeNS(null, "stroke-width", this.strokeWeight);
+          if (svgStroke) {
+            path.setAttributeNS(null, "stroke", svgStroke.name);
+            path.setAttributeNS(null, "stroke-width", this.strokeWeight);
+          }
           //@todo stroke-linecap && stroke-linejoin
         }
 
-        if (svgStroke.effect) {
+        if (svgStroke && svgStroke.effect) {
           defs.appendChild(svgStroke.effect);
         }
       }
@@ -195,12 +199,14 @@ export default class Vector extends Global {
       path.setAttributeNS(null, "d", fillGeo.path);
       for (let fill of this.fills) {
         let svgFill = fill.toSVG("fill", this.id, fillGeoIndex);
-        path.setAttributeNS(null, "fill", svgFill.name);
-        path.setAttributeNS(null, "fill-rule", fillGeo.windingRule);
-        path.setAttributeNS(null, "clip-rule", fillGeo.windingRule);
+        if (svgFill) {
+          path.setAttributeNS(null, "fill", svgFill.name);
+          path.setAttributeNS(null, "fill-rule", fillGeo.windingRule);
+          path.setAttributeNS(null, "clip-rule", fillGeo.windingRule);
 
-        if (svgFill.effect) {
-          defs.appendChild(svgFill.effect);
+          if (svgFill.effect) {
+            defs.appendChild(svgFill.effect);
+          }
         }
       }
 

@@ -114,6 +114,8 @@ export default class Paint {
         return this._paintToLinearGradientSVG(type, id, index);
       case "GRADIENT_RADIAL":
         return this._paintToRadialGradientSVG(type, id, index);
+      case "IMAGE":
+        break;
       default:
         return this._paintToFillColorSVG();
     }

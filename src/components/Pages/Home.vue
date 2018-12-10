@@ -69,7 +69,7 @@ export default {
       let index = 0;
       let canvas = Importer.loadPage(project, 0, images);
       for (let frame of canvas.children) {
-        zip.file(`frame_${index}.html`, frame.draw().outerHTML);
+        zip.file(`frame_${index}.html`, frame.draw({}).outerHTML);
         index++;
       }
 
