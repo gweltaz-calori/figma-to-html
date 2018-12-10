@@ -55,7 +55,6 @@ export default class Text extends Vector {
       el.style.webkitTextStrokeWidth = `${this.strokeWeight}px`;
       el.style.webkitTextStrokeColor = stroke.color.format();
     }
-    console.log(this.styleOverrideTable);
 
     for (let letterIndex in this.characters) {
       let letterEl = document.createElement("span");

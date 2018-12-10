@@ -6,29 +6,20 @@ import SuperMath from "../utils/SuperMath";
 import Effect from "../formats/Effect";
 
 export default class FrameBase extends Global {
-  constructor(
-    id,
-    name,
-    type,
-    visible,
-    backgroundColor,
-    opacity,
-    size,
-    absoluteBoundingBox,
-    relativeTransform,
-    isMask,
-    effects
-  ) {
-    super(id, name, type, visible, relativeTransform);
+  constructor(opts) {
+    super(opts.id, opts.name, opts.type, opts.visible, opts.relativeTransform);
     this.children = [];
-    this.backgroundColor = new Color(backgroundColor);
-    this.opacity = opacity || 1;
-    this.size = new Vector2D(size);
-    this.absoluteBoundingBox = new Rect(absoluteBoundingBox);
-    this.isMask = isMask || false;
+
+    if (opts.backgroundColor) {
+      this.backgroundColor = new Color(opts.backgroundColor);
+    }
+    this.opacity = opts.opacity || 1;
+    this.size = new Vector2D(opts.size);
+    this.absoluteBoundingBox = new Rect(opts.absoluteBoundingBox);
+    this.isMask = opts.isMask || false;
     this.effects = [];
 
-    for (let effect of effects || []) {
+    for (let effect of opts.effects || []) {
       this.effects.push(new Effect(effect));
     }
   }
@@ -37,10 +28,14 @@ export default class FrameBase extends Global {
     let el = document.createElement("div");
     el.style.width = `${this.absoluteBoundingBox.width}px`;
     el.style.height = `${this.absoluteBoundingBox.height}px`;
-    el.style.backgroundColor = this.backgroundColor.format();
+    if (this.backgroundColor) {
+      el.style.backgroundColor = this.backgroundColor.format();
+    }
     el.style.position = "absolute";
-    el.style.top = `${this.absoluteBoundingBox.y}px`;
-    el.style.left = `${this.absoluteBoundingBox.x}px`;
+    el.style.top = `${this.absoluteBoundingBox.y -
+      (this.parentNode.absoluteBoundingBox.y || 0)}px`;
+    el.style.left = `${this.absoluteBoundingBox.x -
+      (this.parentNode.absoluteBoundingBox.x || 0)}px`;
     el.style.opacity = this.opacity;
 
     el.setAttribute("type", this.type);

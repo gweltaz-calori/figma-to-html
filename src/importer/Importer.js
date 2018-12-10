@@ -8,6 +8,7 @@ const serializeNode = (node, imageRefs) => {
 };
 
 const parseNode = (node, imageRefs) => {
+  console.log(node);
   let serializedNode = serializeNode(node, imageRefs);
 
   if (node.children) {
@@ -27,8 +28,6 @@ const parseNode = (node, imageRefs) => {
 
   return serializedNode;
 };
-
-const setTree = (node, tree) => {};
 
 export default class Importer {
   static loadPage(project, pageIndex = 0, imageRefs) {

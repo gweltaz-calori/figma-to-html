@@ -5,19 +5,9 @@ const isRoot = node =>
   node.relativeTransform[1][2] === node.absoluteBoundingBox.y;
 export default class Frame extends FrameBase {
   constructor(opts) {
-    super(
-      opts.id,
-      opts.name,
-      "FRAME",
-      opts.visible,
-      opts.backgroundColor,
-      opts.opacity,
-      opts.size,
-      opts.absoluteBoundingBox,
-      opts.relativeTransform,
-      opts.isMask,
-      opts.effects
-    );
+    super(opts);
+
+    this.type = "FRAME";
 
     this.clipsContent = opts.clipsContent;
   }
